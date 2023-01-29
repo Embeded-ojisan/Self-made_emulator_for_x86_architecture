@@ -36,3 +36,16 @@ void parse_modrm(Emulator* emu, ModRM* modrm)
         emu->eip += 1;
     }
 }
+
+void set_rm32(Emulator* emu, ModRM* modrm, uint32_t value)
+{
+    if(modrm->mod == 3)
+    {
+        set_regsters32(emu, modrm->rm, value);
+    }
+    else
+    {
+        uint32_t address = calc_memory_address(emu, modrm);
+        set_memory32(emu, address, value);
+    }
+}
